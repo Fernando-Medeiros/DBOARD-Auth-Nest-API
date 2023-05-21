@@ -13,30 +13,105 @@
 
 ## Usage
 
-> -   [START](START.md)
-> -   [PRISMA CLI](PRISMA.md)
+- [START](START.md)
+- [PRISMA CLI](PRISMA.md)
 
-## Routes
+## **/login**
 
-### Auth
+> @POST
+>
+> @BODY
+>
+> - email
+> - password
 
-> -   POST /login
-> -   POST /refresh
+## **/refresh**
 
-### Customer
+> @POST
+>
+> @PARAM(**:token**)
 
-> -   GET /customer
-> -   GET /customer/:id
-> -   POST /customer
-> -   PATCH /customer
-> -   DELETE /customer
+## **/customer**
 
-### Password
+### _Register Customer_
 
-> -   POST /password
-> -   PATCH /password
-> -   PATCH /password/:token
+> @POST
+>
+> @BODY:
+>
+> - firstName
+> - lastName
+> - email
+> - password
+
+### _Find Many Customers_
+
+> @SESSION
+> @GET
+>
+> @QUERY:
+>
+> - limit = 10 || ???
+> - order = ASC || DESC
+> - sort = columns -> firstName; lastName; email
+
+### _Find Customer_
+
+> @SESSION
+> @GET
+> @PARAM(**:id**)
+
+### _Update Customer_
+
+> @SESSION
+> @PATCH
+> @PARAM(**:id**)
+>
+> @BODY:
+>
+> - firstName
+> - lastName
+> - email
+
+### Delete Customer
+
+> @SESSION
+> @DELETE
+> @PARAM(**:id**)
+
+## **/password**
+
+### _Recover Password_
+
+> @POST
+>
+> @BODY:
+>
+> - Email
+
+### _Reset Password_
+
+> @PATCH
+> @PARAM(**:token**)
+>
+> @BODY:
+>
+> - password
+
+### _Update Password_
+
+> @SESSION
+> @PATCH
+> @PARAM(**:id**)
+>
+> @BODY:
+>
+> - password.
 
 ## Preview
 
+>
+
 ## License
+
+>
