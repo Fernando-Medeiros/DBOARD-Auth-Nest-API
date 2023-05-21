@@ -2,6 +2,12 @@
 /dist
 /node_modules
 
+# Docker
+.docker/dbdata
+
+# Env
+.env
+
 # Logs
 logs
 *.log
