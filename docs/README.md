@@ -14,6 +14,7 @@
 ## Usage
 
 > -   [START](START.md)
+> -   [PRISMA CLI](PRISMA.md)
 
 ## Routes
 
