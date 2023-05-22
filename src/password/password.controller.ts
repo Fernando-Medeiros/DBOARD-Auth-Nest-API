@@ -3,7 +3,7 @@ import { ApiTags } from '@nestjs/swagger';
 import { PasswordService } from './password.service';
 import { RecoverPasswordDto } from './dto/recover-password.dto';
 import { ResetPasswordDto } from './dto/reset-password.dto';
-import { UpdatedPasswordDto } from './dto/update-password.dto';
+import { UpdatePasswordDto } from './dto/update-password.dto';
 
 @ApiTags('Password')
 @Controller('password')
@@ -20,7 +20,7 @@ export class PasswordController {
     }
 
     @Patch(':id')
-    update(@Param('id') id: string, @Body() updatedPasswordDto: UpdatedPasswordDto) {
-        return this.passwordService.update(id, updatedPasswordDto);
+    update(@Param('id') id: string, @Body() updatePasswordDto: UpdatePasswordDto) {
+        return this.passwordService.update(id, updatePasswordDto);
     }
 }

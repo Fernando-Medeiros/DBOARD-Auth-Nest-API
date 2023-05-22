@@ -1,7 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { RecoverPasswordDto } from './dto/recover-password.dto';
 import { ResetPasswordDto } from './dto/reset-password.dto';
-import { UpdatedPasswordDto } from './dto/update-password.dto';
+import { UpdatePasswordDto } from './dto/update-password.dto';
 
 @Injectable()
 export class PasswordService {
@@ -13,7 +13,7 @@ export class PasswordService {
         return '';
     }
 
-    update(id: string, updatedPasswordDto: UpdatedPasswordDto) {
+    update(id: string, updatePasswordDto: UpdatePasswordDto) {
         return '';
     }
 }
