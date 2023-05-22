@@ -1,9 +1,11 @@
 import { Body, Controller, Param, Patch, Post } from '@nestjs/common';
+import { ApiTags } from '@nestjs/swagger';
 import { PasswordService } from './password.service';
 import { RecoverPasswordDto } from './dto/recover-password.dto';
 import { ResetPasswordDto } from './dto/reset-password.dto';
 import { UpdatedPasswordDto } from './dto/update-password.dto';
 
+@ApiTags('Password')
 @Controller('password')
 export class PasswordController {
     constructor(private readonly passwordService: PasswordService) {}
