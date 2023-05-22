@@ -1,6 +1,5 @@
 import { Injectable } from '@nestjs/common';
 import { LoginCustomerDto } from './dto/login-customer.dto';
-import { RefreshCustomerDto } from './dto/refresh-customer.dto';
 
 @Injectable()
 export class AuthService {
@@ -8,7 +7,7 @@ export class AuthService {
         return '';
     }
 
-    refresh(refreshCustomerDto: RefreshCustomerDto) {
+    refresh(token: string) {
         return '';
     }
 }
