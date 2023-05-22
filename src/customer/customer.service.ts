@@ -8,8 +8,8 @@ export class CustomerService {
         return 'This action adds a new customer';
     }
 
-    findAll() {
-        return `This action returns all customer`;
+    findAll({ limit, order, sort }) {
+        return `This action returns all customer`.concat(limit, order, sort);
     }
 
     findOne(id: string) {

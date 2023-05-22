@@ -1,4 +1,4 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/common';
+import { Controller, Get, Post, Body, Patch, Param, Delete, Query } from '@nestjs/common';
 import { ApiTags } from '@nestjs/swagger';
 import { CustomerService } from './customer.service';
 import { CreateCustomerDto } from './dto/create-customer.dto';
@@ -15,8 +15,12 @@ export class CustomerController {
     }
 
     @Get()
-    findAll() {
-        return this.customerService.findAll();
+    findAll(
+        @Query('limit') limit?: string,
+        @Query('order') order?: string,
+        @Query('sort') sort?: string,
+    ) {
+        return this.customerService.findAll({ limit, order, sort });
     }
 
     @Get(':id')
