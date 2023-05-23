@@ -1,26 +1,38 @@
 import { Injectable } from '@nestjs/common';
 import { CreateCustomerDto } from './dto/create-customer.dto';
 import { UpdateCustomerDto } from './dto/update-customer.dto';
+import { CustomerRepository } from './repository/customer.repository';
+import NotFoundError from 'errors/NotFoundError';
 
 @Injectable()
 export class CustomerService {
-    create(createCustomerDto: CreateCustomerDto) {
-        return 'This action adds a new customer';
+    constructor(private readonly repository: CustomerRepository) {}
+
+    async create(createCustomerDto: CreateCustomerDto) {
+        return this.repository.create(createCustomerDto);
     }
 
-    findAll({ limit, order, sort }) {
-        return `This action returns all customer`.concat(limit, order, sort);
+    async find({ limit, order, sort }) {
+        return this.repository.find({ limit, order, sort });
     }
 
-    findOne(id: string) {
-        return `This action returns a #${id} customer`;
+    async findOne(id: string) {
+        const customer = this.repository.findOne(id);
+
+        if (!customer) throw new NotFoundError('Not found');
+
+        return customer;
     }
 
-    update(id: string, updateCustomerDto: UpdateCustomerDto) {
-        return `This action updates a #${id} customer`;
+    async update(id: string, updateCustomerDto: UpdateCustomerDto) {
+        const customer = await this.repository.update(id, updateCustomerDto);
+
+        if (!customer) throw new NotFoundError('Not found');
     }
 
-    remove(id: string) {
-        return `This action removes a #${id} customer`;
+    async remove(id: string) {
+        const customer = await this.repository.remove(id);
+
+        if (!customer) throw new NotFoundError('Not found');
     }
 }
