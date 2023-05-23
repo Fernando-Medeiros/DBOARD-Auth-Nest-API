@@ -1,8 +1,12 @@
 import { UnauthorizedException } from '@nestjs/common';
-import UnauthorizedError from '../types/UnauthorizedError';
+import BaseInterceptor from './BaseInterceptor';
+import UnauthorizedError from 'errors/UnauthorizedError';
 
-export function unauthorizedInterceptor(error) {
-    if (error instanceof UnauthorizedError) throw new UnauthorizedException(error.message);
-
-    throw error;
+export class UnauthorizedInterceptor extends BaseInterceptor {
+    callback(error: any) {
+        if (error instanceof UnauthorizedError) {
+            throw new UnauthorizedException(error.message);
+        }
+        throw error;
+    }
 }

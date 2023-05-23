@@ -2,10 +2,11 @@ import { NestFactory } from '@nestjs/core';
 import { ValidationPipe } from '@nestjs/common';
 import { AppModule } from './app.module';
 import { SwaggerConfig } from './swagger/swagger.module.config';
-import BaseInterceptor from './common/errors/interceptors/BaseInterceptor';
-import { notFoundInterceptor } from './common/errors/interceptors/not-found.interceptor';
-import { badRequestInterceptor } from './common/errors/interceptors/bad-request.interceptor';
-import { unauthorizedInterceptor } from './common/errors/interceptors/unauthorized.interceptor';
+import { BadRequestInterceptor } from 'interceptors/badrequest.interceptor';
+import { ConflictInterceptor } from 'interceptors/conflict.interceptor';
+import { DatabaseInterceptor } from 'interceptors/database.interceptor';
+import { NotFoundInterceptor } from 'interceptors/notfound.interceptor';
+import { UnauthorizedInterceptor } from 'interceptors/unauthorized.interceptor';
 
 async function bootstrap() {
     const app = await NestFactory.create(AppModule);
@@ -15,16 +16,15 @@ async function bootstrap() {
     app.useGlobalPipes(
         new ValidationPipe({
             whitelist: true,
-            forbidNonWhitelisted: true,
             transform: true,
+            forbidNonWhitelisted: true,
         }),
     );
-
-    app.useGlobalInterceptors(
-        (new BaseInterceptor(notFoundInterceptor),
-        new BaseInterceptor(badRequestInterceptor),
-        new BaseInterceptor(unauthorizedInterceptor)),
-    );
+    app.useGlobalInterceptors(new UnauthorizedInterceptor());
+    app.useGlobalInterceptors(new ConflictInterceptor());
+    app.useGlobalInterceptors(new DatabaseInterceptor());
+    app.useGlobalInterceptors(new NotFoundInterceptor());
+    app.useGlobalInterceptors(new BadRequestInterceptor());
 
     await app.listen(process.env.PORT || 3000);
 }
