@@ -52,8 +52,8 @@
 > @QUERY:
 >
 > - limit = 10 || ???
-> - order = ASC || DESC
-> - sort = columns -> firstName; lastName; email
+> - order = asc || desc
+> - sort = columns -> id | email | firstName | lastName | createdAt
 
 ### _Find Customer_
 
