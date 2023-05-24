@@ -14,6 +14,7 @@ import { ApiTags } from '@nestjs/swagger';
 import { CustomerService } from './customer.service';
 import { CreateCustomerDto } from './dto/create-customer.dto';
 import { UpdateCustomerDto } from './dto/update-customer.dto';
+import { QueryFindCustomer } from './dto/query-find-customer.dto';
 
 @ApiTags('Customer')
 @Controller('customer')
@@ -27,12 +28,8 @@ export class CustomerController {
     }
 
     @Get()
-    find(
-        @Query('limit') limit?: string,
-        @Query('order') order?: string,
-        @Query('sort') sort?: string,
-    ) {
-        return this.customerService.find({ limit, order, sort });
+    find(@Query() query: QueryFindCustomer) {
+        return this.customerService.find(query);
     }
 
     @Get(':id')
