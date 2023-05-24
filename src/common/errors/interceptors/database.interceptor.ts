@@ -1,12 +1,32 @@
-import { BadRequestException } from '@nestjs/common';
+import { ConflictException, NotFoundException } from '@nestjs/common';
 import BaseInterceptor from './BaseInterceptor';
-import DatabaseError from 'errors/DatabaseError';
+
+enum PrismaErrors {
+    UniqueConstraint = 'P2002',
+    RecordNotFound = 'P2025',
+}
 
 export class DatabaseInterceptor extends BaseInterceptor {
     callback(error: any) {
-        if (error instanceof DatabaseError) {
-            throw new BadRequestException(error.message);
+        const { code, meta } = error;
+
+        switch (code) {
+            case PrismaErrors.UniqueConstraint:
+                throw new ConflictException({
+                    statusCode: 409,
+                    message: `${meta?.target} is already in use`,
+                    error: 'Conflict',
+                });
+
+            case PrismaErrors.RecordNotFound:
+                throw new NotFoundException({
+                    statusCode: 404,
+                    message: meta?.cause,
+                    error: 'Not Found',
+                });
+
+            default:
+                throw error;
         }
-        throw error;
     }
 }
