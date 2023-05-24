@@ -10,10 +10,18 @@ import { PrismaService } from 'src/prisma/prisma.service';
 export class CustomerRepository {
     constructor(private readonly prisma: PrismaService) {}
 
-    async find({ limit, order }: QueryFindCustomer): Promise<Partial<CustomerEntity>[]> {
+    async find({ limit, order, sort }: QueryFindCustomer): Promise<Partial<CustomerEntity>[]> {
+        const orderSort = {
+            id: { id: order },
+            email: { email: order },
+            firstName: { firstName: order },
+            lastName: { lastName: order },
+            createdAt: { createdAt: order },
+        }[sort];
+
         const query = {
             take: +limit || 10,
-            orderBy: { createdAt: order },
+            orderBy: orderSort,
             select: { id: true, firstName: true, lastName: true, createdAt: true },
         };
 
