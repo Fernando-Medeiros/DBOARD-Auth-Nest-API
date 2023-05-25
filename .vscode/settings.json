@@ -9,7 +9,7 @@
     "typescript.inlayHints.parameterNames.enabled": "all",
     "workbench.colorCustomizations": {
         "editorInlayHint.background": "#ffffff00",
-        "editorInlayHint.foreground": "#66f2fc72"
+        "editorInlayHint.foreground": "#ffffff"
     },
     "[typescript]": {
         "editor.rulers": [80]

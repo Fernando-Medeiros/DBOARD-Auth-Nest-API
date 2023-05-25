@@ -91,7 +91,7 @@
 
 ### _Reset Password_
 
-> @PATCH
+> @PAT
 > @PARAM(**:token**)
 >
 > @BODY:
