@@ -1,6 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { Request } from 'express';
-import { JwtPayload, sign, verify } from 'jsonwebtoken';
+import { sign, verify } from 'jsonwebtoken';
 import { SessionRepository } from './repository/session.repository';
 import UnauthorizedError from 'errors/UnauthorizedError';
 
@@ -18,12 +18,18 @@ export class SessionService {
         return this.repository.findOne(where);
     }
 
-    async validateToken(token: string): Promise<string | JwtPayload> {
-        return verify(token, process.env.JWT_SECRET);
+    async validateToken<T = { sub: string; scope: string }>(token: string): Promise<T> {
+        return verify(token, process.env.JWT_SECRET) as T;
     }
 
     async createAccessToken(payload: object): Promise<string> {
         return sign(payload, process.env.JWT_SECRET, { expiresIn: process.env.JWT_EXPIRATION });
+    }
+
+    async createRecoverToken(payload: object): Promise<string> {
+        return sign(payload, process.env.JWT_SECRET, {
+            expiresIn: process.env.JWT_EXPIRATION_RECOVER,
+        });
     }
 
     extractTokenToAuthenticationHeader(): (req: Request) => string {
