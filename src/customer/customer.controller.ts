@@ -9,8 +9,10 @@ import {
     Query,
     HttpCode,
     HttpStatus,
+    UseGuards,
 } from '@nestjs/common';
 import { ApiTags } from '@nestjs/swagger';
+import { AuthGuard } from '@nestjs/passport';
 import { CustomerService } from './customer.service';
 import { CreateCustomerDto } from './dto/create-customer.dto';
 import { UpdateCustomerDto } from './dto/update-customer.dto';
@@ -28,22 +30,26 @@ export class CustomerController {
     }
 
     @Get()
+    @UseGuards(AuthGuard('jwt'))
     find(@Query() query: QueryFindCustomer) {
         return this.customerService.find(query);
     }
 
     @Get(':id')
+    @UseGuards(AuthGuard('jwt'))
     findOne(@Param('id') id: string) {
         return this.customerService.findOne(id);
     }
 
     @Patch(':id')
+    @UseGuards(AuthGuard('jwt'))
     @HttpCode(HttpStatus.NO_CONTENT)
     update(@Param('id') id: string, @Body() updateCustomerDto: UpdateCustomerDto) {
         return this.customerService.update(id, updateCustomerDto);
     }
 
     @Delete(':id')
+    @UseGuards(AuthGuard('jwt'))
     @HttpCode(HttpStatus.NO_CONTENT)
     remove(@Param('id') id: string) {
         return this.customerService.remove(id);
