@@ -16,24 +16,28 @@
 - [START](START.md)
 - [PRISMA CLI](PRISMA.md)
 
-## **/login**
+## Dependencies
 
-> @POST
+- This project relies on an email with remote access permission
+
+## Routes
+
+### **/login**
+
+> @POST |
 >
 > @BODY
 >
 > - email
 > - password
 
-## **/refresh**
+### **/refresh**
 
-> @POST
->
-> @PARAM(**:token**)
+> @POST | @PARAM(**:token**)
 
-## **/customer**
+### **/customer**
 
-### _Register Customer_
+#### _Register Customer_
 
 > @POST
 >
@@ -44,10 +48,9 @@
 > - email
 > - password
 
-### _Find Many Customers_
+#### _Find Many Customers_
 
-> @SESSION
-> @GET
+> @SESSION | @GET
 >
 > @QUERY:
 >
@@ -55,17 +58,13 @@
 > - order = asc || desc
 > - sort = columns -> id | email | firstName | lastName | createdAt
 
-### _Find Customer_
+#### _Find Customer_
 
-> @SESSION
-> @GET
-> @PARAM(**:id**)
+> @SESSION | @GET | @PARAM(**:id**)
 
-### _Update Customer_
+#### _Update Customer_
 
-> @SESSION
-> @PATCH
-> @PARAM(**:id**)
+> @SESSION | @PATCH | @PARAM(**:id**)
 >
 > @BODY:
 >
@@ -73,15 +72,13 @@
 > - lastName
 > - email
 
-### Delete Customer
+#### _Delete Customer_
 
-> @SESSION
-> @DELETE
-> @PARAM(**:id**)
+> @SESSION | @DELETE | @PARAM(**:id**)
 
-## **/password**
+### **/password**
 
-### _Recover Password_
+#### _Recover Password_
 
 > @POST
 >
@@ -89,20 +86,17 @@
 >
 > - Email
 
-### _Reset Password_
+#### _Reset Password_
 
-> @PAT
-> @PARAM(**:token**)
+> @PUT | @PARAM(**:token**)
 >
 > @BODY:
 >
 > - password
 
-### _Update Password_
+#### _Update Password_
 
-> @SESSION
-> @PATCH
-> @PARAM(**:id**)
+> @SESSION | @PATCH | @PARAM(**:id**)
 >
 > @BODY:
 >
@@ -110,8 +104,4 @@
 
 ## Preview
 
->
-
-## License
-
->
+![preview](d-board-preview.png)
