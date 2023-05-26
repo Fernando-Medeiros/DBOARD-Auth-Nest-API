@@ -1,8 +1,7 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, UnauthorizedException } from '@nestjs/common';
 import { Request } from 'express';
 import { sign, verify } from 'jsonwebtoken';
 import { SessionRepository } from './repository/session.repository';
-import UnauthorizedError from 'errors/UnauthorizedError';
 
 @Injectable()
 export class SessionService {
@@ -32,17 +31,19 @@ export class SessionService {
         });
     }
 
-    extractTokenToAuthenticationHeader(): (req: Request) => string {
+    extractTokenToAuthorizationHeader(): (req: Request) => string {
         function callback(req: Request): string {
             const { authorization } = req.headers;
 
-            if (!authorization) throw new UnauthorizedError('No authorization header');
+            if (!authorization)
+                throw new UnauthorizedException(
+                    'There is no authorization header with a bearer token in the request',
+                );
 
             const [, token] = authorization.split(' ');
 
             return token;
         }
-
         return callback;
     }
 }

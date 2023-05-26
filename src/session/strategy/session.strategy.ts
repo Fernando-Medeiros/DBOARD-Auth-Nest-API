@@ -9,7 +9,7 @@ import UnauthorizedError from 'errors/UnauthorizedError';
 export class SessionStrategy extends PassportStrategy(Strategy) {
     constructor(private readonly service: SessionService) {
         super({
-            jwtFromRequest: service.extractTokenToAuthenticationHeader(),
+            jwtFromRequest: service.extractTokenToAuthorizationHeader(),
             ignoreExpiration: false,
             secretOrKey: process.env.JWT_SECRET,
         });
