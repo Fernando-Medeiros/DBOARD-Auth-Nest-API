@@ -5,7 +5,7 @@ export class SwaggerConfig {
     readonly version = '1.0';
     readonly title = 'Dashboard-Auth-Nest-API';
     readonly description = '';
-    readonly path = '/docs';
+    readonly path = '/';
     readonly contact = {
         name: 'Fernando-Medeiros',
         url: 'https://github.com/Fernando-Medeiros',
