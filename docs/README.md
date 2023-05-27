@@ -48,7 +48,7 @@
 > - email
 > - password
 
-#### _Find Many Customers_
+#### _Find Many Customers  -> **/customer/find**_
 
 > @SESSION | @GET
 >
@@ -58,23 +58,23 @@
 > - order = asc || desc
 > - sort = columns -> id | email | firstName | lastName | createdAt
 
-#### _Find Customer_
+#### _Get Own Customer_
 
-> @SESSION | @GET | @PARAM(**:id**)
+> @SESSION | @GET
+
+#### _Delete Customer_
+
+> @SESSION | @DELETE
 
 #### _Update Customer_
 
-> @SESSION | @PATCH | @PARAM(**:id**)
+> @SESSION | @PATCH
 >
 > @BODY:
 >
 > - firstName
 > - lastName
 > - email
-
-#### _Delete Customer_
-
-> @SESSION | @DELETE | @PARAM(**:id**)
 
 ### **/password**
 
@@ -96,7 +96,7 @@
 
 #### _Update Password_
 
-> @SESSION | @PATCH | @PARAM(**:id**)
+> @SESSION | @PATCH
 >
 > @BODY:
 >
