@@ -21,11 +21,15 @@ async function bootstrap() {
         }),
     );
 
-    app.useGlobalInterceptors(new DatabaseInterceptor());
-    app.useGlobalInterceptors(new UnauthorizedInterceptor());
-    app.useGlobalInterceptors(new NotFoundInterceptor());
-    app.useGlobalInterceptors(new BadRequestInterceptor());
-    app.useGlobalInterceptors(new JsonWebTokenInterceptor());
+    app.useGlobalInterceptors(
+        ...[
+            new DatabaseInterceptor(),
+            new UnauthorizedInterceptor(),
+            new NotFoundInterceptor(),
+            new BadRequestInterceptor(),
+            new JsonWebTokenInterceptor(),
+        ],
+    );
 
     await app.listen(process.env.PORT || 3000);
 }
