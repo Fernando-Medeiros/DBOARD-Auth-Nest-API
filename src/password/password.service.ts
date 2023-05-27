@@ -44,6 +44,10 @@ export class PasswordService {
     }
 
     async update(id: string, updatePasswordDto: UpdatePasswordDto) {
+        const hashPassword = await CryptPassword.hash(updatePasswordDto);
+
+        updatePasswordDto.password = hashPassword;
+
         await this.repository.update(id, updatePasswordDto);
     }
 }
