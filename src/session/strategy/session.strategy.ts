@@ -1,8 +1,7 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, UnauthorizedException } from '@nestjs/common';
 import { PassportStrategy } from '@nestjs/passport';
 import { Strategy } from 'passport-jwt';
 import { SessionService } from '../session.service';
-import UnauthorizedError from 'errors/UnauthorizedError';
 
 @Injectable()
 export class SessionStrategy extends PassportStrategy(Strategy) {
@@ -16,7 +15,8 @@ export class SessionStrategy extends PassportStrategy(Strategy) {
 
     async validate({ sub }): Promise<{ id: string }> {
         return this.service.validateCustomer({ id: sub }).then(customer => {
-            if (!customer) throw new UnauthorizedError();
+            if (!customer)
+                throw new UnauthorizedException('Invalid token, customer not found in database');
 
             return { id: customer.id };
         });
