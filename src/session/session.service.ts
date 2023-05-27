@@ -35,12 +35,12 @@ export class SessionService {
         function callback(req: Request): string {
             const { authorization } = req.headers;
 
-            if (!authorization)
+            const [type, token] = authorization?.split(' ') ?? '';
+
+            if (!type?.toLowerCase().match('bearer') || !token)
                 throw new UnauthorizedException(
                     'There is no authorization header with a bearer token in the request',
                 );
-
-            const [, token] = authorization.split(' ');
 
             return token;
         }

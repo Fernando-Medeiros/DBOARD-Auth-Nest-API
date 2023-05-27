@@ -9,7 +9,7 @@ export class SessionRepository {
     async findOne(query: { id?: string; email?: string }): Promise<Partial<CustomerEntity>> {
         return this.prisma.customer.findUnique({
             where: query,
-            select: { id: true, email: true, password: true },
+            select: { id: true, password: true },
         });
     }
 }
