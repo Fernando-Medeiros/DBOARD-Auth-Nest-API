@@ -2,11 +2,11 @@ import {
     Body,
     Controller,
     HttpCode,
-    HttpStatus,
     Param,
     Patch,
     Post,
     Put,
+    Request,
     UseGuards,
 } from '@nestjs/common';
 import { ApiTags } from '@nestjs/swagger';
@@ -27,15 +27,15 @@ export class PasswordController {
     }
 
     @Put(':token')
-    @HttpCode(HttpStatus.NO_CONTENT)
+    @HttpCode(204)
     reset(@Param('token') token: string, @Body() resetPasswordDto: ResetPasswordDto) {
         return this.passwordService.reset(token, resetPasswordDto);
     }
 
-    @Patch(':id')
-    @HttpCode(HttpStatus.NO_CONTENT)
+    @Patch()
+    @HttpCode(204)
     @UseGuards(AuthGuard('jwt'))
-    update(@Param('id') id: string, @Body() updatePasswordDto: UpdatePasswordDto) {
-        return this.passwordService.update(id, updatePasswordDto);
+    update(@Request() req, @Body() updatePasswordDto: UpdatePasswordDto) {
+        return this.passwordService.update(req.user?.id, updatePasswordDto);
     }
 }
