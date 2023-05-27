@@ -4,12 +4,11 @@ import {
     Post,
     Body,
     Patch,
-    Param,
     Delete,
     Query,
     HttpCode,
-    HttpStatus,
     UseGuards,
+    Request,
 } from '@nestjs/common';
 import { ApiTags } from '@nestjs/swagger';
 import { AuthGuard } from '@nestjs/passport';
@@ -24,34 +23,34 @@ export class CustomerController {
     constructor(private readonly customerService: CustomerService) {}
 
     @Post()
-    @HttpCode(HttpStatus.CREATED)
+    @HttpCode(201)
     create(@Body() createCustomerDto: CreateCustomerDto) {
         return this.customerService.create(createCustomerDto);
     }
 
-    @Get()
+    @Get('find')
     @UseGuards(AuthGuard('jwt'))
     find(@Query() query: QueryFindCustomer) {
         return this.customerService.find(query);
     }
 
-    @Get(':id')
+    @Get()
     @UseGuards(AuthGuard('jwt'))
-    findOne(@Param('id') id: string) {
-        return this.customerService.findOne(id);
+    getOwn(@Request() req) {
+        return this.customerService.findOne(req.user?.id);
     }
 
-    @Patch(':id')
+    @Patch()
     @UseGuards(AuthGuard('jwt'))
-    @HttpCode(HttpStatus.NO_CONTENT)
-    update(@Param('id') id: string, @Body() updateCustomerDto: UpdateCustomerDto) {
-        return this.customerService.update(id, updateCustomerDto);
+    @HttpCode(204)
+    update(@Request() req, @Body() updateCustomerDto: UpdateCustomerDto) {
+        return this.customerService.update(req.user?.id, updateCustomerDto);
     }
 
-    @Delete(':id')
+    @Delete()
     @UseGuards(AuthGuard('jwt'))
-    @HttpCode(HttpStatus.NO_CONTENT)
-    remove(@Param('id') id: string) {
-        return this.customerService.remove(id);
+    @HttpCode(204)
+    remove(@Request() req) {
+        return this.customerService.remove(req.user?.id);
     }
 }
