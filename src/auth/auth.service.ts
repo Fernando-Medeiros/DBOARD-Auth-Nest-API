@@ -20,20 +20,20 @@ export class AuthService {
             throw new NotFoundError('Invalid Email or Password');
         }
 
-        const accessToken = await this.service.createAccessToken({ sub: customer.id });
+        const token = await this.service.createAccessToken({ sub: customer.id });
 
-        return { accessToken, type: 'bearer' };
+        return { token, type: 'bearer' };
     }
 
-    async refresh(token: string): Promise<LoginTokenDto> {
-        const { sub } = await this.service.validateToken(token);
+    async refresh(refreshToken: string): Promise<LoginTokenDto> {
+        const { sub } = await this.service.validateToken(refreshToken);
 
         const customer = await this.service.validateCustomer({ id: String(sub) });
 
         if (!customer) throw new UnauthorizedError('Access Token is invalid');
 
-        const accessToken = await this.service.createAccessToken({ sub: customer.id });
+        const token = await this.service.createAccessToken({ sub: customer.id });
 
-        return { accessToken, type: 'bearer' };
+        return { token, type: 'bearer' };
     }
 }

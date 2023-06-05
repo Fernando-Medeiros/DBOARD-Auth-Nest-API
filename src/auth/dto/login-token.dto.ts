@@ -1,1 +1,1 @@
-export type LoginTokenDto = { accessToken: string; type: string };
+export type LoginTokenDto = { token: string; type: string };
