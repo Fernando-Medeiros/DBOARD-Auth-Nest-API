@@ -18,7 +18,7 @@ export class NodemailerService {
                   Follow this link to reset the password for your user: <br>
                   This token expires in ${process.env.JWT_EXPIRATION_RECOVER} minutes
                 </p>
-                <a href="${process.env.URL_RESET_PASSWORD}/${token}"> Reset Password</a>`,
+                <a href="${process.env.URL_RESET_PASSWORD}?token=${token}"> Reset Password</a>`,
             })
             .catch(() => {
                 throw new InternalServerErrorException('Server failed to connect to email service');
