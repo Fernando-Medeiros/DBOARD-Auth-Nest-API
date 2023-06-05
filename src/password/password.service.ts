@@ -22,7 +22,7 @@ export class PasswordService {
 
         if (!customer) throw new NotFoundError(`${recoverPasswordDto.email} not found`);
 
-        const token = await this.session.createAccessToken({ sub: customer.id, scope: 'recover' });
+        const token = await this.session.createRecoverToken({ sub: customer.id, scope: 'recover' });
 
         await this.mailer.sendMail(customer.email, token);
 
