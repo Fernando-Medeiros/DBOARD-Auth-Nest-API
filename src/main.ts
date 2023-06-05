@@ -11,6 +11,8 @@ import { JsonWebTokenInterceptor } from 'interceptors/jsonwebtoken.interceptor';
 async function bootstrap() {
     const app = await NestFactory.create(AppModule);
 
+    app.enableCors({ origin: process.env.CORS_ORIGIN });
+
     new SwaggerConfig(app).setup();
 
     app.useGlobalPipes(
