@@ -22,6 +22,7 @@ export class PasswordController {
     constructor(private readonly passwordService: PasswordService) {}
 
     @Post()
+    @HttpCode(200)
     recover(@Body() recoverPasswordDto: RecoverPasswordDto) {
         return this.passwordService.recover(recoverPasswordDto);
     }
