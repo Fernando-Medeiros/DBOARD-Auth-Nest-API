@@ -8,8 +8,6 @@
 ![Docker](https://img.shields.io/badge/Docker-white?style=for-the-badge&logo=Docker&logoColor=black)
 ![Postgres](https://img.shields.io/badge/Postgres-white?style=for-the-badge&logo=postgresql&logoColor=black)
 ![Swagger](https://img.shields.io/badge/Swagger-white?style=for-the-badge&logo=swagger&logoColor=black)
-![Heroku](https://img.shields.io/badge/Heroku-white?style=for-the-badge&logo=Heroku&logoColor=black)
-![Supabase](https://img.shields.io/badge/Supabase-white?style=for-the-badge&logo=supabase&logoColor=black)
 
 ## Usage
 

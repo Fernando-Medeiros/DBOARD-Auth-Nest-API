@@ -1,7 +1,7 @@
 # Start
 
 ```sh
-yarn install
+npm install
 
 docker compose up
 ```
