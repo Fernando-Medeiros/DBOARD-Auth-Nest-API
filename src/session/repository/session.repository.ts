@@ -7,8 +7,10 @@ export class SessionRepository {
     constructor(private readonly prisma: PrismaService) {}
 
     async findOne(query: { id?: string; email?: string }): Promise<Partial<CustomerEntity>> {
+        const { id, email } = query;
+
         return this.prisma.customer.findUnique({
-            where: query,
+            where: { id } || { email },
             select: { id: true, email: true, password: true },
         });
     }
