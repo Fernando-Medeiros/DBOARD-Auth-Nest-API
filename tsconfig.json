@@ -6,9 +6,11 @@
         "emitDecoratorMetadata": true,
         "experimentalDecorators": true,
         "allowSyntheticDefaultImports": true,
-        "target": "ES2022",
+        "resolveJsonModule": true,
+        "target": "esnext",
         "sourceMap": true,
-        "outDir": "./dist",
+        "outDir": "dist",
+        "baseUrl": ".",
         "incremental": true,
         "skipLibCheck": true,
         "strictNullChecks": false,
@@ -16,15 +18,15 @@
         "strictBindCallApply": false,
         "forceConsistentCasingInFileNames": false,
         "noFallthroughCasesInSwitch": false,
-
-        "baseUrl": ".",
+        "types": ["@types/jest"],
         "paths": {
-            "errors/*": ["src/common/errors/types/*"],
-            "helpers/*": ["src/common/helpers/*"],
-            "interceptors/*": ["src/common/errors/interceptors/*"]
+            "@/*": ["src/*", "dist/src/*"],
+            "errors/*": ["src/common/errors/types/*", "dist/src/common/errors/types/*"],
+            "helpers/*": ["src/common/helpers/*", "dist/src/common/helpers/*"],
+            "interceptors/*": [
+                "src/common/errors/interceptors/*",
+                "dist/src/common/errors/interceptors/*"
+            ]
         }
-    },
-
-    "include": ["src", "test"],
-    "exclude": ["node_modules", ".docker", "build", "dist"]
+    }
 }
