@@ -1,14 +1,16 @@
 import { Injectable } from '@nestjs/common';
-import { CustomerEntity } from 'src/customer/entities/customer.entity';
-import { PrismaService } from 'src/prisma/prisma.service';
+import { CustomerEntity } from '@/customer/entities/customer.entity';
+import { PrismaService } from '@/prisma/prisma.service';
 
 @Injectable()
 export class SessionRepository {
     constructor(private readonly prisma: PrismaService) {}
 
     async findOne(query: { id?: string; email?: string }): Promise<Partial<CustomerEntity>> {
-        return this.prisma.customer.findUnique({
-            where: query,
+        const { id, email } = query;
+
+        return this.prisma.customer.findFirst({
+            where: { OR: [id && { id }, email && { email }] },
             select: { id: true, email: true, password: true },
         });
     }

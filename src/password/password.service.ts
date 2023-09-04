@@ -3,9 +3,9 @@ import { RecoverPasswordDto } from './dto/recover-password.dto';
 import { ResetPasswordDto } from './dto/reset-password.dto';
 import { UpdatePasswordDto } from './dto/update-password.dto';
 import { PasswordRepository } from './repository/password.repository';
-import { SessionService } from 'src/session/session.service';
+import { SessionService } from '@/session/session.service';
 import { CryptPassword } from 'helpers/crypt-password';
-import { NodemailerService } from 'src/nodemailer/nodemailer.service';
+import { NodemailerService } from '@/nodemailer/nodemailer.service';
 import UnauthorizedError from 'errors/UnauthorizedError';
 import NotFoundError from 'errors/NotFoundError';
 

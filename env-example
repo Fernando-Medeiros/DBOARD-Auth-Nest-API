@@ -1,19 +1,20 @@
-NODE_ENV=dev
 PORT=3000
+NODE_ENV=dev
+
+DATABASE_URL="postgresql://postgres:docker@localhost:5432/DEVELOPMENT?schema=public"
+
 CORS_ORIGIN=http://localhost:5173
-DATABASE_URL="postgresql://postgres:docker@postgres-host:5432/DEVELOPMENT?schema=public"
+URL_RESET_PASSWORD=http://localhost:5173/password/reset
+
+RATE_LIMITER_MAX_REQUEST=100
+RATE_LIMITER_DURATION=10 # Set Minutes
 
 JWT_SECRET=001001001001
 JWT_EXPIRATION=3h
 JWT_EXPIRATION_RECOVER=5m
 ENCRYPT_JWT_SECRET=1001001001001
 
-URL_RESET_PASSWORD=http://localhost:5173/password/reset
-
 NODEMAILER_USER=example@email.com
 NODEMAILER_PASS=password
 NODEMAILER_HOST=smtp.gmail.com
 NODEMAILER_PORT=465
-
-RATE_LIMITER_MAX_REQUEST=100
-RATE_LIMITER_DURATION=10 # Set Minutes

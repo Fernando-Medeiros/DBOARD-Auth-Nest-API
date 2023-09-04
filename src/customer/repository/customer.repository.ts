@@ -4,7 +4,7 @@ import { UpdateCustomerDto } from '../dto/update-customer.dto';
 import { QueryFindCustomer } from '../dto/query-find-customer.dto';
 import { CustomerEntity } from '../entities/customer.entity';
 import { CryptPassword } from 'helpers/crypt-password';
-import { PrismaService } from 'src/prisma/prisma.service';
+import { PrismaService } from '@/prisma/prisma.service';
 
 @Injectable()
 export class CustomerRepository {

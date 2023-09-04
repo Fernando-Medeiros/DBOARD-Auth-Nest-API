@@ -1,7 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { LoginCustomerDto } from './dto/login-customer.dto';
 import { LoginTokenDto } from './dto/login-token.dto';
-import { SessionService } from 'src/session/session.service';
+import { SessionService } from '@/session/session.service';
 import { CryptPassword } from 'helpers/crypt-password';
 import NotFoundError from 'errors/NotFoundError';
 import UnauthorizedError from 'errors/UnauthorizedError';

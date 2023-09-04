@@ -4,7 +4,7 @@ import { PassportModule } from '@nestjs/passport';
 import { SessionService } from './session.service';
 import { SessionStrategy } from './strategy/session.strategy';
 import { SessionRepository } from './repository/session.repository';
-import { PrismaService } from 'src/prisma/prisma.service';
+import { PrismaService } from '@/prisma/prisma.service';
 
 @Module({
     imports: [
