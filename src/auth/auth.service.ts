@@ -1,8 +1,8 @@
 import { Injectable } from '@nestjs/common';
-import { LoginCustomerDto } from './dto/login-customer.dto';
-import { LoginTokenDto } from './dto/login-token.dto';
 import { SessionService } from '@/session/session.service';
 import { CryptPassword } from 'helpers/crypt-password';
+import { SignInDTO } from './dto/signIn.dto';
+import { TokenDTO } from './dto/token.dto';
 import NotFoundError from 'errors/NotFoundError';
 import UnauthorizedError from 'errors/UnauthorizedError';
 
@@ -10,13 +10,10 @@ import UnauthorizedError from 'errors/UnauthorizedError';
 export class AuthService {
     constructor(private readonly service: SessionService) {}
 
-    async login(loginCustomerDto: LoginCustomerDto): Promise<LoginTokenDto> {
-        const customer = await this.service.validateCustomer(loginCustomerDto);
+    async signin(dto: SignInDTO): Promise<TokenDTO> {
+        const customer = await this.service.validateCustomer(dto);
 
-        if (
-            !customer ||
-            !(await CryptPassword.compare(loginCustomerDto.password, customer.password))
-        ) {
+        if (!customer || !(await CryptPassword.compare(dto.password, customer.password))) {
             throw new NotFoundError('Invalid Email or Password');
         }
 
@@ -25,7 +22,7 @@ export class AuthService {
         return { token, type: 'bearer' };
     }
 
-    async refresh(refreshToken: string): Promise<LoginTokenDto> {
+    async refresh(refreshToken: string): Promise<TokenDTO> {
         const { sub } = await this.service.validateToken(refreshToken);
 
         const customer = await this.service.validateCustomer({ id: String(sub) });
