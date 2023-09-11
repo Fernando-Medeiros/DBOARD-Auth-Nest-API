@@ -5,52 +5,68 @@ import {
     Body,
     Patch,
     Delete,
-    Query,
     HttpCode,
     UseGuards,
     Request,
 } from '@nestjs/common';
-import { ApiTags } from '@nestjs/swagger';
+import {
+    ApiBadRequestResponse,
+    ApiCreatedResponse,
+    ApiNoContentResponse,
+    ApiNotFoundResponse,
+    ApiOkResponse,
+    ApiOperation,
+    ApiTags,
+} from '@nestjs/swagger';
 import { AuthGuard } from '@nestjs/passport';
 import { CustomerService } from './customer.service';
 import { CreateCustomerDto } from './dto/create-customer.dto';
 import { UpdateCustomerDto } from './dto/update-customer.dto';
-import { QueryFindCustomer } from './dto/query-find-customer.dto';
+import { Customer } from './entities/customer.entity';
 
-@ApiTags('Customer')
-@Controller('customer')
+@ApiTags('Customer Controller')
+@Controller('api/v1/customers')
 export class CustomerController {
-    constructor(private readonly customerService: CustomerService) {}
-
-    @Post()
-    @HttpCode(201)
-    create(@Body() createCustomerDto: CreateCustomerDto) {
-        return this.customerService.create(createCustomerDto);
-    }
-
-    @Get('find')
-    @UseGuards(AuthGuard('jwt'))
-    find(@Query() query: QueryFindCustomer) {
-        return this.customerService.find(query);
-    }
+    constructor(private readonly service: CustomerService) {}
 
     @Get()
     @UseGuards(AuthGuard('jwt'))
-    getOwn(@Request() req) {
-        return this.customerService.findOne(req.user?.id);
+    @ApiOkResponse({ type: Customer })
+    @ApiOperation({ summary: 'get a customer' })
+    @ApiBadRequestResponse({ description: 'bad request' })
+    @ApiNotFoundResponse({ description: 'not found' })
+    findOne(@Request() req) {
+        return this.service.findOne(req.user?.id);
+    }
+
+    @Post()
+    @ApiOperation({ summary: 'register a customer' })
+    @ApiCreatedResponse({ description: 'success', type: null })
+    @ApiBadRequestResponse({ description: 'bad request' })
+    @HttpCode(201)
+    register(@Body() dto: CreateCustomerDto) {
+        return this.service.register(dto);
     }
 
     @Patch()
     @UseGuards(AuthGuard('jwt'))
+    @ApiOperation({ summary: 'update a customer' })
+    @ApiBadRequestResponse({ description: 'bad request' })
+    @ApiNotFoundResponse({ description: 'not found' })
+    @ApiNoContentResponse({ description: 'success' })
     @HttpCode(204)
-    update(@Request() req, @Body() updateCustomerDto: UpdateCustomerDto) {
-        return this.customerService.update(req.user?.id, updateCustomerDto);
+    update(@Request() req, @Body() dto: UpdateCustomerDto) {
+        return this.service.update(req.user?.id, dto);
     }
 
     @Delete()
     @UseGuards(AuthGuard('jwt'))
+    @ApiOperation({ summary: 'remove a customer' })
+    @ApiBadRequestResponse({ description: 'bad request' })
+    @ApiNotFoundResponse({ description: 'not found' })
+    @ApiNoContentResponse({ description: 'success' })
     @HttpCode(204)
     remove(@Request() req) {
-        return this.customerService.remove(req.user?.id);
+        return this.service.remove(req.user?.id);
     }
 }

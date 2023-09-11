@@ -17,10 +17,10 @@ export class PasswordService {
         private readonly mailer: NodemailerService,
     ) {}
 
-    async recover(recoverPasswordDto: RecoverPasswordDto) {
-        const customer = await this.session.validateCustomer(recoverPasswordDto);
+    async recover(dto: RecoverPasswordDto) {
+        const customer = await this.session.validateCustomer(dto);
 
-        if (!customer) throw new NotFoundError(`${recoverPasswordDto.email} not found`);
+        if (!customer) throw new NotFoundError(`${dto.email} not found`);
 
         const token = await this.session.createRecoverToken({ sub: customer.id, scope: 'recover' });
 
@@ -29,25 +29,25 @@ export class PasswordService {
         return { statusCode: 200, message: 'Email sent, check your mailbox' };
     }
 
-    async reset(token: string, resetPasswordDto: ResetPasswordDto) {
+    async reset(token: string, dto: ResetPasswordDto) {
         const { sub, scope } = await this.session.validateToken(token);
 
         if (scope === 'recover') {
-            const hashPassword = await CryptPassword.hash(resetPasswordDto);
+            const hashPassword = await CryptPassword.hash(dto);
 
-            resetPasswordDto.password = hashPassword;
+            dto.password = hashPassword;
 
-            await this.repository.update(String(sub), resetPasswordDto);
+            await this.repository.update(String(sub), dto);
         } else {
             throw new UnauthorizedError();
         }
     }
 
-    async update(id: string, updatePasswordDto: UpdatePasswordDto) {
-        const hashPassword = await CryptPassword.hash(updatePasswordDto);
+    async update(id: string, dto: UpdatePasswordDto) {
+        const hashPassword = await CryptPassword.hash(dto);
 
-        updatePasswordDto.password = hashPassword;
+        dto.password = hashPassword;
 
-        await this.repository.update(id, updatePasswordDto);
+        await this.repository.update(id, dto);
     }
 }

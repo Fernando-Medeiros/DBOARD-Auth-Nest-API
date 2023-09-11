@@ -6,7 +6,7 @@ import { PrismaService } from '@/prisma/prisma.service';
 export class PasswordRepository {
     constructor(private readonly prisma: PrismaService) {}
 
-    async update(id: string, updatePasswordDto: UpdatePasswordDto) {
-        return this.prisma.customer.update({ where: { id }, data: updatePasswordDto });
+    async update(id: string, dto: UpdatePasswordDto) {
+        return this.prisma.customer.update({ where: { id }, data: dto });
     }
 }
