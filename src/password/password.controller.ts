@@ -9,33 +9,51 @@ import {
     Request,
     UseGuards,
 } from '@nestjs/common';
-import { ApiTags } from '@nestjs/swagger';
+import {
+    ApiBadRequestResponse,
+    ApiCreatedResponse,
+    ApiNoContentResponse,
+    ApiNotFoundResponse,
+    ApiOperation,
+    ApiTags,
+} from '@nestjs/swagger';
 import { AuthGuard } from '@nestjs/passport';
 import { PasswordService } from './password.service';
 import { RecoverPasswordDto } from './dto/recover-password.dto';
 import { ResetPasswordDto } from './dto/reset-password.dto';
 import { UpdatePasswordDto } from './dto/update-password.dto';
 
-@ApiTags('Password')
-@Controller('password')
+@ApiTags('Password Controller')
+@Controller('api/v1/passwords')
 export class PasswordController {
-    constructor(private readonly passwordService: PasswordService) {}
+    constructor(private readonly service: PasswordService) {}
 
     @Post()
-    recover(@Body() recoverPasswordDto: RecoverPasswordDto) {
-        return this.passwordService.recover(recoverPasswordDto);
+    @ApiOperation({ summary: 'send email to recover' })
+    @ApiCreatedResponse({ description: 'success' })
+    @ApiBadRequestResponse({ description: 'bad request' })
+    @ApiNotFoundResponse({ description: 'not found' })
+    @HttpCode(201)
+    recover(@Body() dto: RecoverPasswordDto) {
+        return this.service.recover(dto);
     }
 
     @Put(':token')
+    @ApiOperation({ summary: 'reset a password' })
+    @ApiBadRequestResponse({ description: 'bad request' })
+    @ApiNoContentResponse({ description: 'success' })
     @HttpCode(204)
-    reset(@Param('token') token: string, @Body() resetPasswordDto: ResetPasswordDto) {
-        return this.passwordService.reset(token, resetPasswordDto);
+    reset(@Param('token') token: string, @Body() dto: ResetPasswordDto) {
+        return this.service.reset(token, dto);
     }
 
     @Patch()
-    @HttpCode(204)
     @UseGuards(AuthGuard('jwt'))
-    update(@Request() req, @Body() updatePasswordDto: UpdatePasswordDto) {
-        return this.passwordService.update(req.user?.id, updatePasswordDto);
+    @ApiOperation({ summary: 'update a password' })
+    @ApiBadRequestResponse({ description: 'bad request' })
+    @ApiNoContentResponse({ description: 'success' })
+    @HttpCode(204)
+    update(@Request() req, @Body() dto: UpdatePasswordDto) {
+        return this.service.update(req.user?.id, dto);
     }
 }
