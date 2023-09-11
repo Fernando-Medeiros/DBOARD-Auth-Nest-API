@@ -1,4 +1,4 @@
-# DashBoard - Auth - NestJS - API
+# Dashboard-Auth-Backend-RestAPI
 
 ![Node](https://img.shields.io/badge/Node.JS-white?style=for-the-badge&logo=node.js&logoColor=black)
 ![Nest](https://img.shields.io/badge/Nest.JS-white?style=for-the-badge&logo=nestjs&logoColor=black)
@@ -9,97 +9,99 @@
 ![Postgres](https://img.shields.io/badge/Postgres-white?style=for-the-badge&logo=postgresql&logoColor=black)
 ![Swagger](https://img.shields.io/badge/Swagger-white?style=for-the-badge&logo=swagger&logoColor=black)
 
-## Usage
+## Dependências
 
-- [START](START.md)
-- [PRISMA CLI](PRISMA.md)
+| Ferramenta / Pacote |    Versão     | Opcional |
+| :------------------ | :-----------: | :------: |
+| Docker Desktop      |      ^4       |          |
+| Docker Compose      |      ^2       |    x     |
+| VsCode              |     ^1.8      |    x     |
+| Node                |      ^18      |          |
+| Yarn ou Npm         | ^1.22 ou ^9.8 |          |
 
-## Dependencies
+## Funcionalidades
 
-- This project relies on an email with remote access permission
+| route     |     get     |        post        |       patch       |   delete   |
+| :-------- | :---------: | :----------------: | :---------------: | :--------: |
+| auth      |             | [ token, refresh ] |                   |            |
+| customers | [ findOne ] |    [ register ]    |    [ update ]     | [ remove ] |
+| passwords |             |    [ recover ]     | [ update, reset ] |            |
 
-## Routes
+## Instalação
 
-### **/login**
+Copie o template do env para .env
 
-> @POST |
->
-> @BODY
->
-> - email
-> - password
+```sh
+cp env-example .env
+```
 
-### **/refresh**
+Instale as dependências do [package.json](../package.json)
 
-> @POST | @PARAM(**:token**)
+```sh
+yarn install && yarn build
+```
 
-### **/customer**
+## Variáveis de ambiente
 
-#### _Register Customer_
+```sh
+PORT=3000
+NODE_ENV=dev
 
-> @POST
->
-> @BODY:
->
-> - firstName
-> - lastName
-> - email
-> - password
+DATABASE_URL="postgresql://postgres:docker@localhost:5432/DEVELOPMENT?schema=public"
 
-#### _Find Many Customers  -> **/customer/find**_
+CORS_ORIGIN=http://localhost:5173
+URL_RESET_PASSWORD=http://localhost:5173/password/reset
 
-> @SESSION | @GET
->
-> @QUERY:
->
-> - limit = 10 || ???
-> - order = asc || desc
-> - sort = columns -> id | email | firstName | lastName | createdAt
+RATE_LIMITER_MAX_REQUEST=100
+RATE_LIMITER_DURATION=10 # Set Minutes
 
-#### _Get Own Customer_
+JWT_SECRET=001001001001
+JWT_EXPIRATION=3h
+JWT_EXPIRATION_RECOVER=5m
+ENCRYPT_JWT_SECRET=1001001001001
 
-> @SESSION | @GET
+NODEMAILER_USER=example@email.com
+NODEMAILER_PASS=password
+NODEMAILER_HOST=smtp.gmail.com
+NODEMAILER_PORT=465
+```
 
-#### _Delete Customer_
+## Docker
 
-> @SESSION | @DELETE
+```sh
+# Para subir o container
+docker compose up -d
+```
 
-#### _Update Customer_
+## Prisma
 
-> @SESSION | @PATCH
->
-> @BODY:
->
-> - firstName
-> - lastName
-> - email
+```sh
+yarn prisma generate # atualizar o prisma.schema
+yarn prisma db push # subir o schema para o banco de dados
+yarn prisma studio # visualizar os dados
+```
 
-### **/password**
+## Servidor
 
-#### _Recover Password_
+```sh
+yarn start # production  - [node dist/src/main]
+yarn start:dev # watch  - [nest start --watch]
+```
 
-> @POST
->
-> @BODY:
->
-> - Email
+[http://localhost:3000/](http://localhost:3000/)
 
-#### _Reset Password_
+## Testes
 
-> @PUT | @PARAM(**:token**)
->
-> @BODY:
->
-> - password
+```sh
+yarn test # unit tests
+yarn test:e2e # e2e tests
+```
 
-#### _Update Password_
+## Licença
 
-> @SESSION | @PATCH
->
-> @BODY:
->
-> - password.
+Nest is [MIT licensed](LICENSE).
 
-## Preview
+## Endpoints
 
-![preview](d-board-preview.png)
+![endpoints](endpoints.png)
+![schemas](schemas.png)
